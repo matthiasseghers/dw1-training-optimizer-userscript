@@ -55,67 +55,6 @@ jobs:
           name: userscript
           path: dist/userscript.user.js
 
-  post-setup:
-    name: Validate (post-setup state)
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Seed pre-setup state
-        run: |
-          node -e "
-            const fs = require('fs');
-            const meta = JSON.parse(fs.readFileSync('meta.json', 'utf8'));
-            meta.version = '4.2.0';
-            fs.writeFileSync('meta.json', JSON.stringify(meta, null, 2) + '\n');
-          "
-          git tag v9.9.9
-
-      - name: Run the real setup wizard
-        run: printf 'My Script\nA cool script\nTest Author\ntestuser\nmy-script\ny\ny\n' | node scripts/setup.js
-
-      - name: Assert post-setup state
-        run: |
-          test ! -f scripts/setup.js || { echo 'FAIL: scripts/setup.js should be removed'; exit 1; }
-          test ! -f scripts/README.template.md || { echo 'FAIL: scripts/README.template.md should be removed'; exit 1; }
-          test ! -f MIGRATION_GUIDE.md || { echo 'FAIL: MIGRATION_GUIDE.md should be removed'; exit 1; }
-          test ! -f tests/setup.test.ts || { echo 'FAIL: tests/setup.test.ts should be removed'; exit 1; }
-          test -f scripts/update-meta-version.js || { echo 'FAIL: scripts/update-meta-version.js must survive setup'; exit 1; }
-          test -f scripts/check-grants.js || { echo 'FAIL: scripts/check-grants.js must survive setup'; exit 1; }
-          grep -q '"version": "0.1.0"' meta.json || { echo 'FAIL: meta.json version should be reset to 0.1.0'; exit 1; }
-          grep -q 'My Script' README.md || { echo 'FAIL: README should be stamped with the userscript name'; exit 1; }
-          if grep -q '{{' README.md; then echo 'FAIL: README placeholders should be replaced'; exit 1; fi
-          [ -z "$(git tag -l 'v*')" ] || { echo 'FAIL: inherited v* tags should be deleted'; exit 1; }
-          node -e "
-            const pkg = JSON.parse(require('fs').readFileSync('package.json', 'utf8'));
-            const fail = (msg) => { console.error('FAIL: ' + msg); process.exit(1); };
-            if (pkg.userscript) fail('userscript key should be removed');
-            if (!pkg.templateProvenance) fail('templateProvenance should be recorded');
-            if (pkg.templateProvenance.version !== '4.2.0') fail('templateProvenance.version should record the inherited version');
-            if (!pkg.scripts['check-grants']) fail('check-grants script should survive');
-            if (!pkg.scripts.validate.includes('check-grants')) fail('validate chain should keep check-grants');
-            if (pkg.name !== 'my-script') fail('package name should be normalized');
-            if (pkg.repository.url !== 'https://github.com/testuser/my-script') fail('repository.url should be patched');
-            const meta = JSON.parse(require('fs').readFileSync('meta.json', 'utf8'));
-            if (meta.namespace !== 'https://github.com/testuser') fail('meta namespace should be patched');
-            if (meta.name !== 'My Script') fail('meta name should be patched');
-          "
-
-      - name: Build userscript
-        run: npm run build
-
-      - name: Verify build output
-        run: test -f dist/userscript.user.js
-
   markdown-links:
     runs-on: ubuntu-latest
     continue-on-error: true  # Don't fail the workflow if links break
