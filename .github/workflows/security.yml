@@ -1,0 +1,79 @@
+name: Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 6 * * 1'  # weekly, Monday 06:00 UTC
+
+jobs:
+  # ── CodeQL ───────────────────────────────────────────────────────────────────
+  codeql:
+    name: CodeQL (TypeScript)
+    if: github.event.repository.visibility == 'public'
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+          queries: security-and-quality
+
+      - name: Install & build
+        run: npm ci && npm run build
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v4
+
+  # ── npm audit ─────────────────────────────────────────────────────────────────
+  npm-audit:
+    name: npm audit (all deps)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit dependencies
+        run: |
+          npm audit --audit-level=high --json > npm-audit.json || true
+          node scripts/audit-gate.js
+          rm -f npm-audit.json
+
+  # ── Semgrep ───────────────────────────────────────────────────────────────────
+  semgrep:
+    name: Semgrep (XSS / DOM sinks)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    container:
+      image: semgrep/semgrep
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Run Semgrep
+        run: >
+          semgrep scan
+          --config p/xss
+          --config p/javascript
+          --error

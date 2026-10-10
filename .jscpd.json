@@ -1,0 +1,7 @@
+{
+  "threshold": 5,
+  "exitCode": 1,
+  "minTokens": 50,
+  "format": ["typescript", "javascript"],
+  "ignore": ["dist/**", "node_modules/**"]
+}

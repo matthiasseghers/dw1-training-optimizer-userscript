@@ -1,0 +1,14 @@
+{
+  "name": "My TypeScript Userscript",
+  "namespace": "https://github.com/yourusername",
+  "version": "0.1.0",
+  "description": "A userscript built with TypeScript",
+  "author": "Your Name",
+  "match": [
+    "https://example.com/*"
+  ],
+  "grant": [
+    "none"
+  ],
+  "run-at": "document-end"
+}

@@ -1,0 +1,52 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+    cooldown:
+      default-days: 5
+    # Group assignment is first-match-wins: vitest-family claims vitest and @vitest/* before the catch-all groups, keeping the coverage provider in lockstep with the runner.
+    groups:
+      vitest-family:
+        applies-to: version-updates
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
+      vitest-family-security:
+        applies-to: security-updates
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
+      npm-version:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - '*'
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - '*'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+    cooldown:
+      default-days: 5
+    groups:
+      actions-version:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - '*'
+      actions-security:
+        applies-to: security-updates
+        patterns:
+          - '*'

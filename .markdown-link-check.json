@@ -1,0 +1,21 @@
+{
+  "ignorePatterns": [
+    { "pattern": "matthiasseghers" },
+    { "pattern": "%3Cyourusername%3E" },
+    { "pattern": "^https://img\\.shields\\.io" },
+    { "pattern": "^https://badge\\.fury\\.io" },
+    { "pattern": "^https://www\\.greasespot\\.net" }
+  ],
+  "httpHeaders": [
+    {
+      "urls": ["https://github.com", "https://raw.githubusercontent.com", "https://api.github.com"],
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_TOKEN}"
+      }
+    }
+  ],
+  "timeout": "20s",
+  "retryOn429": true,
+  "retryCount": 3,
+  "fallbackRetryDelay": "30s"
+}

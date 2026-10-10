@@ -1,0 +1,73 @@
+{
+  "name": "typescript-userscript-template",
+  "version": "1.0.0",
+  "description": "A template for building userscripts with TypeScript",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "rollup -c --environment BUILD:production",
+    "watch": "rollup -c -w",
+    "dev": "rollup -c -w --environment BUILD:development",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --fix",
+    "lint:scripts": "eslint \"scripts/**/*.js\"",
+    "lint:scripts:fix": "eslint \"scripts/**/*.js\" --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "check-grants": "node scripts/check-grants.js",
+    "check-duplicates": "jscpd",
+    "check-links": "markdown-link-check README.md --config .markdown-link-check.json",
+    "type-check": "tsc --project tsconfig.test.json",
+    "validate": "npm run lint && npm run lint:scripts && npm run format:check && npm run type-check && npm run test && npm run check-grants && npm run check-duplicates && npm run build",
+    "prepare": "husky || true",
+    "setup": "node scripts/setup.js"
+  },
+  "keywords": [
+    "userscript",
+    "typescript",
+    "template",
+    "tampermonkey",
+    "greasemonkey",
+    "rollup",
+    "userscript-template",
+    "gm-api"
+  ],
+  "author": "matthiasseghers",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matthiasseghers/typescript-userscript-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/matthiasseghers/typescript-userscript-template/issues"
+  },
+  "homepage": "https://github.com/matthiasseghers/typescript-userscript-template#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^1.0.0",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/tampermonkey": "^5.5.0",
+    "@vitest/coverage-v8": "^5.0.3",
+    "@vitest/ui": "^5.0.3",
+    "eslint": "^10.11.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "happy-dom": "^20.14.5",
+    "husky": "^9.0.11",
+    "jscpd": "^5.4.0",
+    "markdown-link-check": "^3.15.0",
+    "prettier": "^3.9.9",
+    "rollup": "^4.64.0",
+    "rollup-plugin-userscript-metablock": "^0.7.1",
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^8.71.0",
+    "vitest": "^5.0.3"
+  }
+}
