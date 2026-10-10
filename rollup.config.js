@@ -1,6 +1,7 @@
 import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
+import image from '@rollup/plugin-image';
 import metablock from 'rollup-plugin-userscript-metablock';
 
 const isDevelopment = process.env.BUILD === 'development';
@@ -21,6 +22,7 @@ export default {
   },
   plugins: [
     resolve(),
+    image(), // inlines src/assets/*.gif,png,jpg,svg as base64 data URIs
     typescript({
       tsconfig: './tsconfig.json',
       noEmitOnError: true,

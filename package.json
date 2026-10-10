@@ -1,7 +1,7 @@
 {
-  "name": "typescript-userscript-template",
+  "name": "dw1-training-optimizer-userscript",
   "version": "1.0.0",
-  "description": "A template for building userscripts with TypeScript",
+  "description": "Digimon World 1 Training Calculator+ userscript built with TypeScript",
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -25,31 +25,36 @@
     "check-links": "markdown-link-check README.md --config .markdown-link-check.json",
     "type-check": "tsc --project tsconfig.test.json",
     "validate": "npm run lint && npm run lint:scripts && npm run format:check && npm run type-check && npm run test && npm run check-grants && npm run check-duplicates && npm run build",
-    "prepare": "husky || true",
-    "setup": "node scripts/setup.js"
+    "prepare": "husky || true"
   },
   "keywords": [
     "userscript",
     "typescript",
-    "template",
     "tampermonkey",
     "greasemonkey",
     "rollup",
-    "userscript-template",
-    "gm-api"
+    "gm-api",
+    "digimon-world",
+    "training-optimizer"
   ],
-  "author": "matthiasseghers",
+  "author": "Matthias Seghers",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/matthiasseghers/typescript-userscript-template.git"
+    "url": "https://github.com/matthiasseghers/dw1-training-optimizer-userscript.git"
   },
   "bugs": {
-    "url": "https://github.com/matthiasseghers/typescript-userscript-template/issues"
+    "url": "https://github.com/matthiasseghers/dw1-training-optimizer-userscript/issues"
   },
-  "homepage": "https://github.com/matthiasseghers/typescript-userscript-template#readme",
+  "homepage": "https://github.com/matthiasseghers/dw1-training-optimizer-userscript#readme",
+  "templateProvenance": {
+    "template": "matthiasseghers/typescript-userscript-template",
+    "version": "1.0.0",
+    "forkedAt": "2026-10-10"
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@rollup/plugin-image": "^3.0.3",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",

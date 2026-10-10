@@ -1,14 +1,11 @@
 {
-  "name": "My TypeScript Userscript",
-  "namespace": "https://github.com/yourusername",
-  "version": "0.1.0",
-  "description": "A userscript built with TypeScript",
-  "author": "Your Name",
-  "match": [
-    "https://example.com/*"
-  ],
-  "grant": [
-    "none"
-  ],
+  "name": "Digimon World 1 Training Calculator+",
+  "namespace": "https://github.com/matthiasseghers/dw1-training-optimizer-userscript",
+  "version": "1.0.0",
+  "description": "Optimize training sessions to reach stat goals with minimal effort.",
+  "author": "Matthias Seghers",
+  "match": ["https://fliegenfuerst.github.io/dw1/training/"],
+  "require": ["https://unpkg.com/javascript-lp-solver/dist/solver.global.js"],
+  "grant": ["none"],
   "run-at": "document-end"
 }
