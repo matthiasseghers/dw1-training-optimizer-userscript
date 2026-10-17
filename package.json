@@ -66,13 +66,13 @@
     "eslint-plugin-prettier": "^5.5.4",
     "happy-dom": "^20.14.5",
     "husky": "^9.0.11",
-    "jscpd": "^5.4.0",
+    "jscpd": "^5.4.1",
     "markdown-link-check": "^3.15.0",
-    "prettier": "^3.9.9",
-    "rollup": "^4.64.0",
+    "prettier": "^3.9.10",
+    "rollup": "^4.64.5",
     "rollup-plugin-userscript-metablock": "^0.7.1",
     "typescript": "^5.3.3",
-    "typescript-eslint": "^8.71.0",
+    "typescript-eslint": "^8.71.1",
     "vitest": "^5.0.3"
   }
 }
